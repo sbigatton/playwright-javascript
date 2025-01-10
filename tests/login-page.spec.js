@@ -2,9 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { LoginPage } = require('../pages/login');
 const { Header} = require ('../pages/header');
 const { ProductsPage } = require('../pages/products');
-const { Account } = require('../models/account');
-
-const account = new Account();
+const account = require('../data/account.json');
 
 test.describe('Login page', () => {
     test.beforeEach(async ({ page }) => {

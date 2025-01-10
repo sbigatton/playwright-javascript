@@ -3,36 +3,8 @@ const { LoginPage } = require('../pages/login');
 const { Header} = require ('../pages/header');
 const { ProductsPage } = require('../pages/products');
 const { ProductPage } = require('../pages/product');
-const { Product } = require('../models/product');
-const { Account } = require('../models/account');
-
-const account = new Account();
-const products = [
-    {
-        "name": "Sauce Labs Backpack",
-        "price": 29.99
-    },
-    {
-        "name": "Sauce Labs Bike Light",
-        "price": 9.99
-    },
-    {
-        "name": "Sauce Labs Bolt T-Shirt",
-        "price": 15.99
-    },
-    {
-        "name": "Sauce Labs Fleece Jacket",
-        "price": 49.99
-    },
-    {
-        "name": "Sauce Labs Onesie",
-        "price": 7.99
-    },
-    {
-        "name": "Test.allTheThings() T-Shirt (Red)",
-        "price": 15.99
-    }
-];
+const products = require('../data/products.json');
+const account = require('../data/account.json');
 
 const productNames = products.map(product => product.name);
 
@@ -52,15 +24,10 @@ test.describe('Products page', () => {
     });
 
     test('should display Sauce Labs Bike Light product details as expected', async ({ page }) => {
-        const product = new Product(
-            'Sauce Labs Bike Light', 
-            'A red light isn\'t the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.', 
-            '$9.99', 
-            '/static/media/bike-light-1200x1500.37c843b0.jpg'
-        );        
+        const product = products.find(product => product.name === 'Sauce Labs Bike Light');
         const productsPage = new ProductsPage(page);
         expect(productsPage.getProductDescription(product.name)).toHaveText(product.description);
-        expect(productsPage.getProductPrice(product.name)).toHaveText(product.price);
+        expect(productsPage.getProductPrice(product.name)).toHaveText(`$${product.price}`);
         expect(productsPage.getProductImage(product.name)).toHaveAttribute('src', product.image);
         expect(productsPage.getProductButton(product.name)).toHaveText('Add to cart');
     });

@@ -3,10 +3,8 @@ const { LoginPage } = require('../pages/login');
 const { Header } = require('../pages/header');
 const { ProductsPage } = require('../pages/products');
 const { ProductPage } = require('../pages/product');
-const { Product } = require('../models/product');
-const { Account } = require('../models/account');
-
-const account = new Account();
+const products = require('../data/products.json');
+const account = require('../data/account.json');
 
 test.describe('Product page', () => {
     test.beforeEach(async ({ page }) => {
@@ -19,18 +17,13 @@ test.describe('Product page', () => {
     });
 
     test('should display Sauce Labs Bike Light product details as expected', async ({ page }) => {
-        const product = new Product(
-            'Sauce Labs Bike Light', 
-            'A red light isn\'t the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.', 
-            '$9.99', 
-            '/static/media/bike-light-1200x1500.37c843b0.jpg'
-        );        
+        const product = products.find(product => product.name === 'Sauce Labs Bike Light');        
         const productsPage = new ProductsPage(page);
         await productsPage.goToProduct(product.name);
         const productPage = new ProductPage(page);
         expect(productPage.productName).toHaveText(product.name);
         expect(productPage.productDescription).toHaveText(product.description);
-        expect(productPage.productPrice).toHaveText(product.price);
+        expect(productPage.productPrice).toHaveText(`$${product.price}`);
         expect(productPage.productImage).toHaveAttribute('src', product.image);
         expect(productsPage.getProductButton(product.name)).toHaveText('Add to cart');
     });
