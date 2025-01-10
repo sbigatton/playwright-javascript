@@ -19,6 +19,6 @@ export class ProductPage {
     }
 
     async removeProduct() {
-        await this.removeProduct.click();
+        await this.productRemoveFromButton.click();
     }
 }

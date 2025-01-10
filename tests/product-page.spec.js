@@ -6,6 +6,8 @@ const { ProductPage } = require('../pages/product');
 const products = require('../data/products.json');
 const account = require('../data/account.json');
 
+const product = products.find(product => product.name === 'Sauce Labs Bike Light');
+
 test.describe('Product page', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('https://www.saucedemo.com/');
@@ -13,18 +15,28 @@ test.describe('Product page', () => {
         await loginPage.login(account.username, account.password);
         const header = new Header(page);
         const productsPage = new ProductsPage(page);
-        expect(header.pageTitle).toHaveText(productsPage.title);
+        expect(header.pageTitle).toHaveText(productsPage.title);      
+        const productPage = new ProductPage(page);          
+        await productsPage.goToProduct(product.name);
+        expect(productPage.productName).toHaveText(product.name);
     });
 
-    test('should display Sauce Labs Bike Light product details as expected', async ({ page }) => {
-        const product = products.find(product => product.name === 'Sauce Labs Bike Light');        
-        const productsPage = new ProductsPage(page);
-        await productsPage.goToProduct(product.name);
+    test('should display Sauce Labs Bike Light product details as expected', async ({ page }) => {        
         const productPage = new ProductPage(page);
         expect(productPage.productName).toHaveText(product.name);
         expect(productPage.productDescription).toHaveText(product.description);
         expect(productPage.productPrice).toHaveText(`$${product.price}`);
         expect(productPage.productImage).toHaveAttribute('src', product.image);
-        expect(productsPage.getProductButton(product.name)).toHaveText('Add to cart');
+        expect(productPage.productAddToCarButton).toBeVisible();
+    });
+
+    test('should add / remove product to cart and display correct count', async ({ page }) => {        
+        const header = new Header(page);
+        const productPage = new ProductPage(page);
+        await productPage.addProductToCart();
+        expect(header.cartButtonCounter).toHaveText('1');
+        await productPage.removeProduct();
+        expect(header.cartButtonCounter).toBeHidden();
+        expect(productPage.productAddToCarButton).toBeVisible();
     });
 });
