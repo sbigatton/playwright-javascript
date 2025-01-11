@@ -1,31 +1,31 @@
-export class ProductsPage {
+const { ProductPage } = require('./product');
+
+export class ProductsPage extends ProductPage {
     /**
      * @param {import('@playwright/test').Page} page     
      */
 
     constructor(page){
+        super(page);
         this.page = page;
         this.title = 'Products';
-        this.productNameSelector = '[data-test="inventory-item-name"]';
-        this.productItem = page.locator('[data-test="inventory-item"]');
-        this.productName = page.locator(this.productNameSelector);
-        this.productAddToCarButton = page.getByText('Add to cart', { exact: true });
+        this.productsImageSelector = 'img.inventory_item_img';        
     }
 
     getProductItem(name){
-        return this.page.locator('[data-test="inventory-item"]', { has: this.page.getByText(name) });        
+        return this.page.locator(this.productItemSelector, { has: this.page.getByText(name) });        
     }
 
     getProductDescription(name){
-         return this.getProductItem(name).locator('[data-test="inventory-item-desc"]');
+         return this.getProductItem(name).locator(this.productDescriptionSelector);
     }
 
     getProductPrice(name){
-        return this.getProductItem(name).locator('[data-test="inventory-item-price"]');
+        return this.getProductItem(name).locator(this.productPriceSelector);
     }
 
     getProductImage(name){
-        return this.getProductItem(name).locator('.inventory_item_img img');
+        return this.getProductItem(name).locator(this.productsImageSelector);
     }
 
     getProductButton(name){

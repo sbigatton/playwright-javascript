@@ -1,9 +1,12 @@
-export class CheckoutStepOnePage {
+const { ProductsPage } = require('./products');
+
+export class CheckoutStepOnePage extends ProductsPage {
     /**
      * @param {import('@playwright/test').Page} page     
      */
 
     constructor(page){
+        super(page);
         this.page = page;
         this.title = 'Checkout: Your Information';
         this.firstName = page.getByPlaceholder('First Name');
@@ -12,15 +15,6 @@ export class CheckoutStepOnePage {
         this.continueButton = page.getByText('Continue', { exact: true });
         this.cancelButton = page.getByText('Cancel', { exact: true });
         this.errorContainer = page.locator('.error-message-container');
-    }
-
-    async removeProduct(name) {
-        const product = this.productItem.filter({ has: this.page.locator('.inventory_item_name', { hasText: name }) });
-        await product.getByText('Remove', { exact: true }).click();
-    }
-
-    async goToProduct(name) {
-        await this.productItem.locator('.inventory_item_name', { hasText: name }).click();
     }
 
     async continue() {
