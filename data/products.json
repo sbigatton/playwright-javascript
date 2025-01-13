@@ -11,7 +11,9 @@
     },
     {
         "name": "Sauce Labs Bolt T-Shirt",
-        "price": 15.99
+        "price": 15.99,
+        "description": "Get your testing superhero on with the Sauce Labs bolt T-shirt. From American Apparel, 100% ringspun combed cotton, heather gray with red bolt.",
+        "image": "/static/media/bolt-shirt-1200x1500.c2599ac5.jpg"
     },
     {
         "name": "Sauce Labs Fleece Jacket",
