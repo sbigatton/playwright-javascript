@@ -49,8 +49,8 @@ test.describe('Cart page', () => {
         const cartPage = new CartPage(page);
         expect(header.pageTitle).toHaveText(cartPage.title);
 
-        await cartPage.removeProduct(productA);
-        expect(cartPage.getProductItem(productA)).toBeHidden();
+        await cartPage.removeProduct(productA.name);
+        expect(cartPage.getProductItem(productA.name)).toBeHidden();
         
         expect(cartPage.getProductDescription(productB.name)).toHaveText(productB.description);
         expect(cartPage.getProductPrice(productB.name)).toHaveText(`$${productB.price}`);
@@ -77,11 +77,11 @@ test.describe('Cart page', () => {
         const cartPage = new CartPage(page);
         expect(header.pageTitle).toHaveText(cartPage.title);
 
-        await cartPage.goToProduct(productA);
+        await cartPage.goToProduct(productA.name);
         const productPage = new ProductPage(page);
-        expect(header.pageTitle).toHaveText(productPage.title);
-        expect(productPage.productName).toHaveText(productA);
-        expect(productPage.productAddToCarButton).toHaveText('Remove');
+        expect(header.backToProduct).toBeVisible();
+        expect(productPage.productName).toHaveText(productA.name);
+        expect(productPage.productRemoveFromButton).toHaveText('Remove');
     });
 
     test('should checkout', async ({ page }) => {
