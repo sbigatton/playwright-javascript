@@ -8,7 +8,7 @@ const account = require('../data/account.json');
 
 const product = products.find(product => product.name === 'Sauce Labs Bike Light');
 
-test.describe('Product page', () => {
+test.describe('Product details page', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('https://www.saucedemo.com/');
         const loginPage = new LoginPage(page);

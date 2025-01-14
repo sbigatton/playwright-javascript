@@ -1,6 +1,6 @@
-const { ProductsPage } = require('./products');
+const { CartPage } = require('./cart');
 
-export class CheckoutStepTwoPage extends ProductsPage {
+export class CheckoutStepTwoPage extends CartPage {
     /**
      * @param {import('@playwright/test').Page} page     
      */

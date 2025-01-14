@@ -1,4 +1,4 @@
-export class CheckoutComplete {
+export class CheckoutCompletePage {
     /**
      * @param {import('@playwright/test').Page } page
      */
